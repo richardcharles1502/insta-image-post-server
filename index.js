@@ -9,14 +9,17 @@ const path = "./user.json";
 const uploadpath = require("path");
 const port = 5000;
 
+// CORS middleware
 const corsOptions = {
-  origin: "https://richardcharles1502.github.io", // replace with your actual URL
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Allow cookies to be sent across domains
-  optionsSuccessStatus: 204,
+  origin: 'https://richardcharles1502.github.io', // Replace with your frontend domain
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 app.use(cors(corsOptions));
+// Apply CORS middleware to your routes
+// app.use(allowCors);
 
 // preflight requests
 app.options('*', cors(corsOptions));
