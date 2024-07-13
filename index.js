@@ -17,6 +17,10 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// preflight requests
+app.options('*', cors(corsOptions));
+
 app.use(bodyParser.json());
 
 app.use(express.static("public"));
