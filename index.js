@@ -9,14 +9,27 @@ const path = "./user.json";
 const uploadpath = require("path");
 const port = 5000;
 
-const corsOptions = {
-  origin: "https://richardcharles1502.github.io", // replace with your actual URL
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Allow cookies to be sent across domains
-  optionsSuccessStatus: 204,
-};
+// CORS middleware
+const allowCors = fn => async (req, res) => {
+     res.setHeader('Access-Control-Allow-Credentials', true);
+     res.setHeader('Access-Control-Allow-Origin', '*'); // You can change * to a specific origin URL
+     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, PATCH, DELETE, POST, PUT');
+     res.setHeader(
+       'Access-Control-Allow-Headers',
+       'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+     );
+   
+     if (req.method === 'OPTIONS') {
+       res.status(200).end();
+       return;
+     }
+   
+     return await fn(req, res);
+   };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+// Apply CORS middleware to your routes
+app.use(allowCors);
 
 // preflight requests
 app.options('*', cors(corsOptions));
