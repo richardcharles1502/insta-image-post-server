@@ -36,7 +36,7 @@ app.listen(port, () => {
 });
 
 app.get("/", (req, res) => {
-  res.send("welcome!!!");
+  res.send("only welcomes  test!!!");
 });
 
 app.post("/registeruser", (req, res) => {
