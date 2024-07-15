@@ -9,18 +9,22 @@ const path = "./user.json";
 const uploadpath = require("path");
 const port = 5000;
 
-// Middleware to handle CORS and preflight requests
-app.use((req, res, next) => {
+// CORS configuration
+app.use(cors({
+  origin: 'https://richardcharles1502.github.io', 
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS', 'PATCH', 'PUT'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.options('*', (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Update this to your live React app URL if needed
+  res.setHeader('Access-Control-Allow-Origin', 'https://richardcharles1502.github.io'); // Adjust this to match your React app's origin
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-  if (req.method === 'OPTIONS') {
-    res.status(200).end(); // Respond with 200 status for OPTIONS requests
-    return;
-  }
-  next();
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  res.sendStatus(200); // Change to 200 OK
 });
+
 
 app.use(bodyParser.json());
 
