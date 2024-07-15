@@ -68,27 +68,24 @@ app.post("/registeruser", (req, res) => {
 });
 
 app.post("/loginuser", (req, res) => {
-  const readfile = (path) => {
-    if (fs.existsSync(path)) {
-      const data = fs.readFileSync(path);
-      return JSON.parse(data);
-    }
-    return {};
-  };
-  let jsondata = readfile(path);
-  if (req.body.email in jsondata) {
-    let email = req.body.email;
-    // testing email
-    console.log('req mail: ',email)
-    console.log('read mail: ',jsondata[email][0].password)
-    if (req.body.password === jsondata[email][0].password) {
+  // const readfile = (path) => {
+  //   if (fs.existsSync(path)) {
+  //     const data = fs.readFileSync(path);
+  //     return JSON.parse(data);
+  //   }
+  //   return {};
+  // };
+  // let jsondata = readfile(path);
+  // if (req.body.email in jsondata) {
+  //   let email = req.body.email;
+  //   if (req.body.password === jsondata[email][0].password) {
       res.status(200).send({ message: "Success" });
-    } else {
-      res.status(401).send({ message: "Invalid pass" });
-    }
-  } else {
-    res.status(500).send({ message: "Undefined user" });
-  }
+  //   } else {
+  //     res.status(401).send({ message: "Invalid pass" });
+  //   }
+  // } else {
+  //   res.status(500).send({ message: "Undefined user" });
+  // }
 });
 
 const storage = multer.diskStorage({
