@@ -9,20 +9,18 @@ const path = "./user.json";
 const uploadpath = require("path");
 const port = 5000;
 
-// CORS middleware
-const corsOptions = {
-  origin: 'https://richardcharles1502.github.io', // Replace with your frontend domain
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-
-app.use(cors(corsOptions));
-// Apply CORS middleware to your routes
-// app.use(allowCors);
-
-// preflight requests
-app.options('*', cors(corsOptions));
+// Middleware to handle CORS and preflight requests
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Update this to your live React app URL if needed
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  if (req.method === 'OPTIONS') {
+    res.status(200).end(); // Respond with 200 status for OPTIONS requests
+    return;
+  }
+  next();
+});
 
 app.use(bodyParser.json());
 
@@ -76,6 +74,9 @@ app.post("/loginuser", (req, res) => {
   let jsondata = readfile(path);
   if (req.body.email in jsondata) {
     let email = req.body.email;
+    // testing email
+    console.log('req mail: ',email)
+    console.log('read mail: ',jsondata[email][0].password)
     if (req.body.password === jsondata[email][0].password) {
       res.status(200).send({ message: "Success" });
     } else {
