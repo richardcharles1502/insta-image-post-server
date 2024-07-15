@@ -1,20 +1,4 @@
 {
   "name": "insta-post-server",
-  "version": 2,
-  "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes":[
-    {
-      "src": "/(.*)",
-      "dest": "/index.js",
-      "methods": ["GET","OPTIONS","PATCH","DELETE","POST","PUT"],
-      "headers": {
-         "Access-Control-Allow-Origin": "*"
-      }
-    }
-  ]
+  "version": 2
   }
